@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "pGWPU0aIQo0=",
+  "dgSpecHash": "Xkn1OoWhsr9WtfGiFSxN1kQA10BnSOfFlCNY4b/ZPcjlpzLVBTvWqANzDA7OW4Qr0r+AZSpEjROEQ6PYoZ3jSw==",
   "success": true,
-  "projectFilePath": "/home/saai/Documents/Work/Our OWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
+  "projectFilePath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
   "expectedPackageFiles": [
     "/home/saai/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
+    "/home/saai/.nuget/packages/microsoft.aspnetcore.cors/2.2.0/microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",
+    "/home/saai/.nuget/packages/microsoft.aspnetcore.http.abstractions/2.2.0/microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
+    "/home/saai/.nuget/packages/microsoft.aspnetcore.http.extensions/2.2.0/microsoft.aspnetcore.http.extensions.2.2.0.nupkg.sha512",
+    "/home/saai/.nuget/packages/microsoft.aspnetcore.http.features/2.2.0/microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.aspnetcore.openapi/8.0.5/microsoft.aspnetcore.openapi.8.0.5.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.bcl.asyncinterfaces/7.0.0/microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.4/microsoft.codeanalysis.analyzers.3.3.4.nupkg.sha512",
@@ -27,10 +31,12 @@
     "/home/saai/.nuget/packages/microsoft.extensions.dependencyinjection/9.0.0-preview.4.24266.19/microsoft.extensions.dependencyinjection.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.0-preview.4.24266.19/microsoft.extensions.dependencyinjection.abstractions.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.extensions.dependencymodel/9.0.0-preview.4.24266.19/microsoft.extensions.dependencymodel.9.0.0-preview.4.24266.19.nupkg.sha512",
+    "/home/saai/.nuget/packages/microsoft.extensions.fileproviders.abstractions/2.2.0/microsoft.extensions.fileproviders.abstractions.2.2.0.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.extensions.logging/9.0.0-preview.4.24266.19/microsoft.extensions.logging.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.extensions.logging.abstractions/9.0.0-preview.4.24266.19/microsoft.extensions.logging.abstractions.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.extensions.options/9.0.0-preview.4.24266.19/microsoft.extensions.options.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.extensions.primitives/9.0.0-preview.4.24266.19/microsoft.extensions.primitives.9.0.0-preview.4.24266.19.nupkg.sha512",
+    "/home/saai/.nuget/packages/microsoft.net.http.headers/2.2.0/microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
     "/home/saai/.nuget/packages/mono.texttemplating/3.0.0-preview-0052-g5d0f76c785/mono.texttemplating.3.0.0-preview-0052-g5d0f76c785.nupkg.sha512",
     "/home/saai/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.7/sqlitepclraw.bundle_e_sqlite3.2.1.7.nupkg.sha512",
@@ -41,6 +47,7 @@
     "/home/saai/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "/home/saai/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
     "/home/saai/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.4.0/swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512",
+    "/home/saai/.nuget/packages/system.buffers/4.5.0/system.buffers.4.5.0.nupkg.sha512",
     "/home/saai/.nuget/packages/system.codedom/6.0.0/system.codedom.6.0.0.nupkg.sha512",
     "/home/saai/.nuget/packages/system.collections.immutable/7.0.0/system.collections.immutable.7.0.0.nupkg.sha512",
     "/home/saai/.nuget/packages/system.composition/7.0.0/system.composition.7.0.0.nupkg.sha512",
@@ -55,10 +62,7 @@
     "/home/saai/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/home/saai/.nuget/packages/system.text.encodings.web/9.0.0-preview.4.24266.19/system.text.encodings.web.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/saai/.nuget/packages/system.text.json/9.0.0-preview.4.24266.19/system.text.json.9.0.0-preview.4.24266.19.nupkg.sha512",
-    "/home/saai/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512",
-    "/home/saai/.nuget/packages/microsoft.netcore.app.ref/8.0.6/microsoft.netcore.app.ref.8.0.6.nupkg.sha512",
-    "/home/saai/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.6/microsoft.aspnetcore.app.ref.8.0.6.nupkg.sha512",
-    "/home/saai/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.6/microsoft.netcore.app.host.linux-x64.8.0.6.nupkg.sha512"
+    "/home/saai/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }

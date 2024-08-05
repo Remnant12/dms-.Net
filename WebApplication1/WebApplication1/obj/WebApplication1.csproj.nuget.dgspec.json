@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/saai/Documents/Work/Our OWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj": {}
+    "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj": {}
   },
   "projects": {
-    "/home/saai/Documents/Work/Our OWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj": {
+    "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/saai/Documents/Work/Our OWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
+        "projectUniqueName": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "/home/saai/Documents/Work/Our OWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
+        "projectPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
         "packagesPath": "/home/saai/.nuget/packages/",
-        "outputPath": "/home/saai/Documents/Work/Our OWn/github/dms-.Net/WebApplication1/WebApplication1/obj/",
+        "outputPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/saai/.nuget/NuGet/NuGet.Config"
@@ -32,17 +32,16 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Cors": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.5, )"
@@ -71,20 +70,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.6, 8.0.6]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.linux-x64",
-              "version": "[8.0.6, 8.0.6]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.6, 8.0.6]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -93,7 +78,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

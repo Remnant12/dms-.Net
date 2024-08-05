@@ -13,6 +13,8 @@ public class Item
     public string Weight { get; set; }
     public string Volume { get; set; }
     public string Total { get; set; }
+    
+    
 }
 
 public class Order
@@ -31,12 +33,24 @@ public class Order
     public string DeliveryTime { get; set; }
     
     public List<Item> Items { get; set; }
+    
+    
     public string OrderStatus { get; set; }
-    public string Driver { get; set; }
     
     public float Distance { get; set; }
     public float overallWeight { get; set; }
     public float overallVolume { get; set; }
     public float overallCharge { get; set; }
     public string PaymentStatus { get; set; }
+    
+    public int UserId { get; set; }
+
+    // Navigation property for the related user
+    public User? User { get; set; }
+    
+    
+    public int DriverId { get; set; } // Foreign key for Driver
+    public Driver? Driver { get; set; }
 }
+
+

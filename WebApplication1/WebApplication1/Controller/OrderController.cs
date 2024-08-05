@@ -18,13 +18,46 @@ public class OrderController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+    public async Task<ActionResult<IEnumerable<object>>> GetOrders()
     {
-        // return await _dbContext.Orders.ToListAsync();
-        return await _dbContext.Orders
+        var orders = await _dbContext.Orders
             .Include(o => o.Items)
+            .Include(o => o.Driver) // Include the Driver entity
+            .Select(o => new
+            {
+                o.Id,
+                o.firstName,
+                o.lastName,
+                o.PhoneNo,
+                o.Email,
+                o.PickUpAddress,
+                o.PickUpTime,
+                o.DeliveryAddress,
+                o.DeliveryTime,
+                Items = o.Items.Select(i => new 
+                {
+                    i.Id,
+                    i.ItemName,
+                    i.ItemType,
+                    i.Weight,
+                    i.Volume,
+                    i.Total
+                }).ToList(),
+                o.OrderStatus,
+                o.Distance,
+                o.overallWeight,
+                o.overallVolume,
+                o.overallCharge,
+                o.PaymentStatus,
+                o.UserId,
+                o.DriverId,
+                DriverName = o.Driver.Name // Add DriverName to the result
+            })
             .ToListAsync();
+
+        return Ok(orders);
     }
+
     
     [HttpGet("{id}")]
     public async Task<ActionResult<Order>> GetOrderById(int id)
@@ -42,42 +75,28 @@ public class OrderController : ControllerBase
     }
     
     [HttpPost("/orders")]
-    public async Task<ActionResult<Order>> PostOrder(Order orderDto)
+    public async Task<ActionResult<Order>> PostOrder(Order order)
     {
-         if (!ModelState.IsValid) {
-            return BadRequest(ModelState); 
-         }
-
-         
-        var order = new Order 
+        if (!ModelState.IsValid)
         {
-            firstName = orderDto.firstName,
-            lastName = orderDto.lastName,
-            PhoneNo = orderDto.PhoneNo,
-            Email = orderDto.Email,
-            PickUpAddress = orderDto.PickUpAddress,
-            PickUpTime = orderDto.PickUpTime,
-            DeliveryAddress = orderDto.DeliveryAddress,
-            DeliveryTime = orderDto.DeliveryTime,
-            OrderStatus = orderDto.OrderStatus,
-            Driver = orderDto.Driver,
-            overallWeight = orderDto.overallWeight, 
-            overallCharge = orderDto.overallCharge, 
-            overallVolume = orderDto.overallVolume, 
-            PaymentStatus = orderDto.PaymentStatus,
-            Distance = orderDto.Distance,
-            Items = orderDto.Items.Select(i => new Item
-            {
-                ItemName = i.ItemName,
-                ItemType = i.ItemType,  
-                Weight = i.Weight,
-                Volume = i.Volume,
-                Total = i.Total
-            }).ToList() 
-        };
+            return BadRequest(ModelState);
+        }
+
+        // Optionally, you can validate if the user exists
+        var user = _dbContext.Users.Find(order.UserId);
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+        
+        var driver = _dbContext.Drivers.Find(order.DriverId);
+        if (driver == null)
+        {
+            return NotFound("Driver not Found. Required!"); 
+        }
 
         _dbContext.Orders.Add(order);
-        await _dbContext.SaveChangesAsync();
+        _dbContext.SaveChanges();
 
         return CreatedAtAction(nameof(GetOrders), new { id = order.Id }, order);
     }
@@ -99,52 +118,64 @@ public class OrderController : ControllerBase
         return NoContent();
     }
     
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateOrder(int id, Order orderDto)
+    [HttpPut("/orders/{id}")]
+    public async Task<IActionResult> PutOrder(int id, Order updatedOrder)
     {
-        // Retrieve the existing order from the database
-        var existingOrder = await _dbContext.Orders.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == id);
-    
-        if (existingOrder == null)
+        if (id != updatedOrder.Id)
         {
-            return NotFound(); // Return a 404 if the order is not found
+            return BadRequest("Order ID in URL does not match order ID in body");
         }
 
-        // Update the existing order's properties with the values from orderDto
-        existingOrder.firstName = orderDto.firstName;
-        existingOrder.lastName = orderDto.lastName;
-        existingOrder.PhoneNo = orderDto.PhoneNo;
-        existingOrder.Email = orderDto.Email;
-        existingOrder.PickUpAddress = orderDto.PickUpAddress;
-        existingOrder.PickUpTime = orderDto.PickUpTime;
-        existingOrder.DeliveryAddress = orderDto.DeliveryAddress;
-        existingOrder.DeliveryTime = orderDto.DeliveryTime;
-        existingOrder.OrderStatus = orderDto.OrderStatus;
-        existingOrder.Driver = orderDto.Driver;
-        existingOrder.Distance = orderDto.Distance;
-        existingOrder.overallWeight = orderDto.overallWeight;
-        existingOrder.overallCharge = orderDto.overallCharge;
-        existingOrder.overallVolume = orderDto.overallVolume;
-        existingOrder.PaymentStatus = orderDto.PaymentStatus;
-
-        // Clear existing items and add updated items
-        existingOrder.Items.Clear();
-        existingOrder.Items = orderDto.Items.Select(i => new Item
+        if (!ModelState.IsValid)
         {
-            ItemName = i.ItemName,
-            ItemType = i.ItemType,
-            Weight = i.Weight,
-            Volume = i.Volume,
-            Total = i.Total
-        }).ToList();
+            return BadRequest(ModelState);
+        }
 
-        // Save changes to the database
-        await _dbContext.SaveChangesAsync();
+        // Optionally, you can validate if the user exists
+        var user = await _dbContext.Users.FindAsync(updatedOrder.UserId);
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+    
+        // Validate if the driver exists
+        var driver = await _dbContext.Drivers.FindAsync(updatedOrder.DriverId);
+        if (driver == null)
+        {
+            return NotFound("Driver not found");
+        }
 
-        return NoContent(); // Return a 204 No Content response to indicate successful update
+        var existingOrder = await _dbContext.Orders.FindAsync(id);
+        if (existingOrder == null)
+        {
+            return NotFound("Order not found");
+        }
+
+        // Update the existing order entity with values from updatedOrder
+        _dbContext.Entry(existingOrder).CurrentValues.SetValues(updatedOrder);
+
+        try
+        {
+            await _dbContext.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!OrderExists(id))
+            {
+                return NotFound("Order not found");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return NoContent();
     }
 
-    
-    
+    private bool OrderExists(int id)
+    {
+        return _dbContext.Orders.Any(e => e.Id == id);
+    }
     
 }

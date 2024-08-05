@@ -1,0 +1,47 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace WebApplication1.Models;
+
+public class User
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string FirstName { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string LastName { get; set; }
+
+    [Required]
+    [StringLength(200)]
+    public string Address { get; set; }
+
+    [Required]
+    [Phone]
+    [StringLength(15)]
+    public string PhoneNumber { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    public string Country { get; set; }
+
+    [Required]
+    [StringLength(20)]
+    public string PostalCode { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    public string Province { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    public string City { get; set; }
+
+    [Required]
+    [DataType(DataType.Password)]
+    public string Password { get; set; }
+    
+}
