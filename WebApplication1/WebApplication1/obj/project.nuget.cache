@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RY96IxL6PM4=",
+  "dgSpecHash": "pGWPU0aIQo0=",
   "success": true,
-  "projectFilePath": "/home/saai/RiderProjects/WebApplication1/WebApplication1/WebApplication1.csproj",
+  "projectFilePath": "/home/saai/Documents/Work/Our OWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
   "expectedPackageFiles": [
     "/home/saai/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.aspnetcore.openapi/8.0.5/microsoft.aspnetcore.openapi.8.0.5.nupkg.sha512",
@@ -55,7 +55,10 @@
     "/home/saai/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/home/saai/.nuget/packages/system.text.encodings.web/9.0.0-preview.4.24266.19/system.text.encodings.web.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/saai/.nuget/packages/system.text.json/9.0.0-preview.4.24266.19/system.text.json.9.0.0-preview.4.24266.19.nupkg.sha512",
-    "/home/saai/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512"
+    "/home/saai/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512",
+    "/home/saai/.nuget/packages/microsoft.netcore.app.ref/8.0.6/microsoft.netcore.app.ref.8.0.6.nupkg.sha512",
+    "/home/saai/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.6/microsoft.aspnetcore.app.ref.8.0.6.nupkg.sha512",
+    "/home/saai/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.6/microsoft.netcore.app.host.linux-x64.8.0.6.nupkg.sha512"
   ],
   "logs": []
 }

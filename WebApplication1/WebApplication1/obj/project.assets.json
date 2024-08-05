@@ -3369,11 +3369,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/saai/RiderProjects/WebApplication1/WebApplication1/WebApplication1.csproj",
+      "projectUniqueName": "/home/saai/Documents/Work/Our OWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
       "projectName": "WebApplication1",
-      "projectPath": "/home/saai/RiderProjects/WebApplication1/WebApplication1/WebApplication1.csproj",
+      "projectPath": "/home/saai/Documents/Work/Our OWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
       "packagesPath": "/home/saai/.nuget/packages/",
-      "outputPath": "/home/saai/RiderProjects/WebApplication1/WebApplication1/obj/",
+      "outputPath": "/home/saai/Documents/Work/Our OWn/github/dms-.Net/WebApplication1/WebApplication1/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/saai/.nuget/NuGet/NuGet.Config"
@@ -3433,6 +3433,20 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.6, 8.0.6]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.linux-x64",
+            "version": "[8.0.6, 8.0.6]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.6, 8.0.6]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -3441,7 +3455,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
