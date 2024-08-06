@@ -18,6 +18,10 @@ public class User
     [Required]
     [StringLength(200)]
     public string Address { get; set; }
+    
+    [Required]
+    [StringLength(200)]
+    public string Email { get; set; }
 
     [Required]
     [Phone]
