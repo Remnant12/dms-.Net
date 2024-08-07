@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="ApiGateway\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
 

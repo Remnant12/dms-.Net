@@ -3591,11 +3591,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
+      "projectUniqueName": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
       "projectName": "WebApplication1",
-      "projectPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
+      "projectPath": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
       "packagesPath": "/home/saai/.nuget/packages/",
-      "outputPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/obj/",
+      "outputPath": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/WebApplication1/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/saai/.nuget/NuGet/NuGet.Config"
@@ -3662,7 +3662,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
