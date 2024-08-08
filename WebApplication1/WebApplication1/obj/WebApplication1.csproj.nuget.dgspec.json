@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj": {}
+    "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj": {}
   },
   "projects": {
-    "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj": {
+    "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
+        "projectUniqueName": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
+        "projectPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
         "packagesPath": "/home/saai/.nuget/packages/",
-        "outputPath": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/WebApplication1/obj/",
+        "outputPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/saai/.nuget/NuGet/NuGet.Config"
@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[9.0.0-preview.4.24267.1, )"
             },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
@@ -78,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

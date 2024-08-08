@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WLA+O8k0Dm9T7nBqyNZf9KOw7HhHsYXsR/gn3jVbtNA5XlQwxbUzU/SpJSLBLtCFG3kVWsvZZR39+xuVO0nnTg==",
-  "success": true,
-  "projectFilePath": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
+  "dgSpecHash": "SSn+pVdyNxrvd98eUuRqt0wmQP7uamTOLQpVZfOHeXoZgW2bwJRIybIG9bLj+LPSZVfaqhKGIQyNQtWkQ5+09Q==",
+  "success": false,
+  "projectFilePath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/WebApplication1/WebApplication1.csproj",
   "expectedPackageFiles": [
     "/home/saai/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.aspnetcore.cors/2.2.0/microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",
@@ -39,6 +39,8 @@
     "/home/saai/.nuget/packages/microsoft.net.http.headers/2.2.0/microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "/home/saai/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
     "/home/saai/.nuget/packages/mono.texttemplating/3.0.0-preview-0052-g5d0f76c785/mono.texttemplating.3.0.0-preview-0052-g5d0f76c785.nupkg.sha512",
+    "/home/saai/.nuget/packages/mysqlconnector/2.3.5/mysqlconnector.2.3.5.nupkg.sha512",
+    "/home/saai/.nuget/packages/pomelo.entityframeworkcore.mysql/8.0.2/pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512",
     "/home/saai/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.7/sqlitepclraw.bundle_e_sqlite3.2.1.7.nupkg.sha512",
     "/home/saai/.nuget/packages/sqlitepclraw.core/2.1.7/sqlitepclraw.core.2.1.7.nupkg.sha512",
     "/home/saai/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.7/sqlitepclraw.lib.e_sqlite3.2.1.7.nupkg.sha512",
@@ -64,5 +66,15 @@
     "/home/saai/.nuget/packages/system.text.json/9.0.0-preview.4.24266.19/system.text.json.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/saai/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1107",
+      "level": "Error",
+      "message": "Version conflict detected for Microsoft.EntityFrameworkCore.Relational. Install/reference Microsoft.EntityFrameworkCore.Relational 9.0.0-preview.4.24267.1 directly to project WebApplication1 to resolve this issue. \n WebApplication1 -> Microsoft.EntityFrameworkCore.Sqlite 9.0.0-preview.4.24267.1 -> Microsoft.EntityFrameworkCore.Sqlite.Core 9.0.0-preview.4.24267.1 -> Microsoft.EntityFrameworkCore.Relational (>= 9.0.0-preview.4.24267.1) \n WebApplication1 -> Pomelo.EntityFrameworkCore.MySql 8.0.2 -> Microsoft.EntityFrameworkCore.Relational (>= 8.0.2 && <= 8.0.999).",
+      "libraryId": "Microsoft.EntityFrameworkCore.Relational",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }
