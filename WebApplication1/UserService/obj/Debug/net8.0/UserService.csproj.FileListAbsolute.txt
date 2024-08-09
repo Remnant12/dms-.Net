@@ -91,3 +91,12 @@
 /home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
 /home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/BCrypt.Net.dll
+/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/UserService/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

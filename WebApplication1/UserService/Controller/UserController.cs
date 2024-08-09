@@ -1,9 +1,14 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using UserService.Data;
 using WebApplication1.UserService.Models;
 
-namespace WebApplication1.Controller;
+namespace WebApplication1.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -21,7 +26,8 @@ public class UsersController : ControllerBase
     {
         return await _context.Users.ToListAsync();
     }    
-
+    
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> GetUser(int id)
     {
@@ -38,6 +44,7 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<User>> PostUser(User user)
     {
+        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
@@ -73,6 +80,7 @@ public class UsersController : ControllerBase
         return NoContent();
     }
     
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(int id)
     {
@@ -91,5 +99,43 @@ public class UsersController : ControllerBase
     private bool UserExists(int id)
     {
         return _context.Users.Any(e => e.Id == id);
+    }
+    
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] Login loginModel)
+    {
+        var user = _context.Users.SingleOrDefault(u => u.Email == loginModel.Email);
+    
+        if (user == null)
+        {
+            return Unauthorized("User not found");
+        }
+    
+        if (!BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
+        {
+            return Unauthorized("Invalid password");
+        }
+    
+        var token = GenerateJwtToken(user);
+    
+        return Ok(new { Token = token });
+    }
+    
+    private string GenerateJwtToken(User user)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes("A345fghJkl987654321QWERTYUIOPasdfsdfghjklzxcvbnm1234567890");
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email)
+            }),
+            Expires = DateTime.UtcNow.AddHours(1),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 }
