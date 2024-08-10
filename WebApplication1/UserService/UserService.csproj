@@ -34,6 +34,7 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.7.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI-4.14.0" Version="6.4.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.0" />
     </ItemGroup>
 
 

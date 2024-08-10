@@ -71,6 +71,10 @@
             "Swashbuckle.AspNetCore.SwaggerUI-4.14.0": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             }
           },
           "imports": [

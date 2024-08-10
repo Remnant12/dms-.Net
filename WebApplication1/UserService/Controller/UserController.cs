@@ -40,6 +40,15 @@ public class UsersController : ControllerBase
 
         return user;
     }
+    
+    [HttpGet("secure-endpoint")]
+    [Authorize]
+    public IActionResult SecureEndpoint()
+    {
+        var token = Request.Headers["Authorization"].ToString();
+        Console.WriteLine("Received Token: " + token);
+        return Ok("Access granted");
+    }
 
     [HttpPost]
     public async Task<ActionResult<User>> PostUser(User user)
@@ -135,7 +144,27 @@ public class UsersController : ControllerBase
             Expires = DateTime.UtcNow.AddHours(1),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
+        
         var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
+
+        var tokenString = tokenHandler.WriteToken(token);
+
+        var parts = tokenString.Split('.');
+        if (parts.Length == 3)
+        {
+            Console.WriteLine("Token format is valid.");
+        }
+        else
+        {
+            Console.WriteLine("Token format is invalid.");
+        }
+        
+        return tokenString;
+
+        
+        // var token = tokenHandler.CreateToken(tokenDescriptor);
+        // return tokenHandler.WriteToken(token);
+        
     }
+    
 }
