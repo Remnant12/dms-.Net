@@ -2,6 +2,10 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using UserAuthenticateService.Service;
+using UserAuthenticateService.Service.Implementation;
+using UserAuthenticateService.Service.Interfaces;
 using UserService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +15,11 @@ builder.Services.AddDbContext<UserDbContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 23))));
  
 
-builder.Services.AddControllers();
-var jwtKey = builder.Configuration["Jwt:Key"];
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -30,59 +37,47 @@ builder.Services.AddCors(options =>
         });
 });
 
-
-// var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
-
-var key = builder.Configuration["Jwt:Key"];
-
-if (key != null)
-{
-    var keyBytes = Encoding.UTF8.GetBytes(key);
-
-    builder.Services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(options =>
-        {
-            options.RequireHttpsMetadata = false;
-            options.SaveToken = true;
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                ValidAudience = builder.Configuration["Jwt:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
-            };
-        });
-}
-
 // var key = Encoding.ASCII.GetBytes("ODo0EHIGJqjIeX8KJFCgZRY5Jyq46eiyqYCCg8kkcKYqssg4bzNh62AHDAfdIQf");
-//
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//     .AddJwtBearer(options =>
-//     {
-//          options.RequireHttpsMetadata = false;
-//          options.SaveToken = true;
-//         options.TokenValidationParameters = new TokenValidationParameters
-//         {
-//             ValidateIssuerSigningKey = true,
-//             IssuerSigningKey = new SymmetricSecurityKey(key),
-//             ValidateIssuer = false,
-//             ValidateAudience = false,
-//             // ValidIssuer = "http://localhost:5001",
-//             // ValidAudience = "http://localhost:5001",
-//             ValidateLifetime = true,
-//             ClockSkew = TimeSpan.Zero
-//         };
-//     });
 
-builder.Services.AddControllers();
+var jwtKey = builder.Configuration["Jwt:Key"];
+var key = Encoding.UTF8.GetBytes(jwtKey); // Use UTF8 encoding for the JWT key
 
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var tokenBlacklistService = context.HttpContext.RequestServices.GetRequiredService<ITokenBlacklistService>();
+                var token = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+
+                if (tokenBlacklistService.IsTokenBlacklisted(token))
+                {
+                    context.Fail("This token has been blacklisted.");
+                }
+
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+builder.Services.AddScoped<ITokenBlacklistService, DatabaseTokenBlacklistService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

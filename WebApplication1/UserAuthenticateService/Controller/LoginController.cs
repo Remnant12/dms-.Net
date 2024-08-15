@@ -1,69 +1,52 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using UserAuthenticateService.Service.Implementation;
+using UserAuthenticateService.Service.Interfaces;
 using UserService.Data;
-using WebApplication1.UserService.Models;
 
 [Route("api/[controller]")]
 [ApiController]
 public class LoginController : ControllerBase
 {
-    private readonly IConfiguration _configuration;
     private readonly UserDbContext _context;
-    
-    public LoginController(IConfiguration configuration, UserDbContext context)
-    {
-        _configuration = configuration;
-        _context = context;
+    private readonly ITokenBlacklistService _tokenBlacklistService;
+    private readonly IJwtService _jwtService;
 
+    public LoginController(UserDbContext context, ITokenBlacklistService tokenBlacklistService, IJwtService jwtService)
+    {
+        _context = context;
+        _tokenBlacklistService = tokenBlacklistService;
+        _jwtService = jwtService; 
     }
 
-
-    [AllowAnonymous]
-    [HttpPost]
-    public IActionResult Login([FromBody] Login login)
+    
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] Login loginModel)
     {
-        var user = Authenticate(login);
-        if (user != null)
+        var user = _context.Users.SingleOrDefault(u => u.Email == loginModel.Email);
+
+        if (user == null)
         {
-            var token = Generate(user);
-            return Ok(new { token });
+            return Unauthorized("User not found");
         }
 
-        return NotFound("User Not Found");
-    }
-
-    private User Authenticate(Login login)
-    {
-        // Replace with your actual authentication logic.
-        var user = _context.Users.SingleOrDefault(u => u.Email == login.Email);
-
-        // If user is found, return it, otherwise return null
-        return user;
-    }
-
-    private string Generate(User user)
-    {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ODo0EHIGJqjIeX8KJFCgZRY5Jyq46eiyqYCCg8kkcKYqssg4bzNh62AHDAfdIQf"));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        var claims = new[]
+        if (!BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
         {
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.GivenName, user.Password),
-            
-        };
+            return Unauthorized("Invalid password");
+        }
 
-        var token = new JwtSecurityToken(
-            // issuer: "http://localhost:5001",
-            // audience: "http://localhost:5001",
-            claims: claims,
-            expires: DateTime.Now.AddMinutes(30),
-            signingCredentials: credentials);
+        var token = _jwtService.GenerateJwtToken(user);
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        return Ok(new { Token = token });
+    }
+    
+    [Authorize]
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+        _tokenBlacklistService.BlacklistToken(token);
+        return Ok(new { message = "Logged out successfully" });
     }
 }

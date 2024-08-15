@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using DefaultNamespace;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,18 +16,65 @@ public class UsersController : ControllerBase
     private readonly UserDbContext _context;
     private readonly IConfiguration _configuration;
 
-    public UsersController(UserDbContext context)
+    public UsersController(IConfiguration configuration, UserDbContext context)
     {
+        _configuration = configuration;  
         _context = context;
     }
 
-    
     [HttpGet]
-    [Authorize]
     public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
         return await _context.Users.ToListAsync();
     }
+    
+    [HttpPost]
+    public async Task<ActionResult<User>> PostUser([FromBody] CreateUserDto userDto)
+    {
+        // user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+        // _context.Users.Add(user);
+        // await _context.SaveChangesAsync();
+        //
+        // return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState); 
+        }
+
+        var user = new User
+        {
+            FirstName = userDto.FirstName,
+            LastName = userDto.LastName,
+            Address = userDto.Address,
+            Email = userDto.Email,
+            PhoneNumber = userDto.PhoneNumber,
+            Country = userDto.Country,
+            PostalCode = userDto.PostalCode,
+            Province = userDto.Province,
+            City = userDto.City,
+            Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password)
+        };
+        
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        
+        // Handle role assignments
+        if (userDto.RoleIds.Any())
+        {
+            var userRoles = userDto.RoleIds.Select(roleId => new UserRole
+            {
+                UserId = user.Id,
+                RoleId = roleId
+            }).ToList();
+
+            _context.UserRoles.AddRange(userRoles);
+            await _context.SaveChangesAsync();
+        }
+
+        return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+    }
+
 
     [Authorize]
     [HttpGet("{id}")]
@@ -53,15 +101,50 @@ public class UsersController : ControllerBase
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutUser(int id, User user)
+    public async Task<IActionResult> PutUser(int id, [FromBody] CreateUserDto updateUserDto)
     {
-        if (id != user.Id)
+        if (!ModelState.IsValid)
         {
-            return BadRequest();
+            return BadRequest(ModelState);
         }
+        
+        var existingUser = await _context.Users
+            .Include(u => u.UserRoles)
+            .FirstOrDefaultAsync(u => u.Id == id);
+        
+        if (existingUser == null)
+        {
+            return NotFound();
+        }
+        
+        existingUser.FirstName = updateUserDto.FirstName;
+        existingUser.LastName = updateUserDto.LastName;
+        existingUser.Address = updateUserDto.Address;
+        existingUser.Email = updateUserDto.Email;
+        existingUser.PhoneNumber = updateUserDto.PhoneNumber;
+        existingUser.Country = updateUserDto.Country;
+        existingUser.PostalCode = updateUserDto.PostalCode;
+        existingUser.Province = updateUserDto.Province;
+        existingUser.City = updateUserDto.City;
+        
+        if (updateUserDto.RoleIds != null && updateUserDto.RoleIds.Any())
+        {
+            // Remove existing roles
+            _context.UserRoles.RemoveRange(existingUser.UserRoles);
 
-        _context.Entry(user).State = EntityState.Modified;
+            // Assign new roles
+            var userRoles = updateUserDto.RoleIds.Select(roleId => new UserRole
+            {
+                UserId = existingUser.Id,
+                RoleId = roleId
+            }).ToList();
 
+            _context.UserRoles.AddRange(userRoles);
+        }
+        
+        _context.Entry(existingUser).State = EntityState.Modified;
+
+        
         try
         {
             await _context.SaveChangesAsync();
@@ -77,6 +160,15 @@ public class UsersController : ControllerBase
                 throw;
             }
         }
+        
+        return Ok(new 
+        {
+            id = existingUser.Id, 
+            firstName = existingUser.FirstName,
+            lastName = existingUser.LastName,
+            email = existingUser.Email,
+            roleIds = updateUserDto.RoleIds
+        });
 
         return NoContent();
     }
@@ -100,47 +192,5 @@ public class UsersController : ControllerBase
     private bool UserExists(int id)
     {
         return _context.Users.Any(e => e.Id == id);
-    }
-
-    [HttpPost("login")]
-    public IActionResult Login([FromBody] Login loginModel)
-    {
-        var user = _context.Users.SingleOrDefault(u => u.Email == loginModel.Email);
-
-        if (user == null)
-        {
-            return Unauthorized("User not found");
-        }
-
-        if (!BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
-        {
-            return Unauthorized("Invalid password");
-        }
-
-        var token = GenerateJwtToken(user);
-
-        return Ok(new { Token = token });
-    }
-
-    private string GenerateJwtToken(User user)
-    {
-   
-        var claims = new[]
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-        var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ODo0EHIGJqjIeX8KJFCgZRY5Jyq46eiyqYCCg8kkcKYqssg4bzNh62AHDAfdIQf"));
-        var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-
-        var token = new JwtSecurityToken(
-            issuer: "http://localhost:5001",
-            audience: "http://localhost:5001",
-            claims: claims,
-            expires: DateTime.Now.AddMinutes(30),
-            signingCredentials: creds);
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

@@ -1,0 +1,53 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ShipmentService.Models;
+
+public class Shipment
+{
+    [Key]
+    public int ShipmentId { get; set; }
+
+    public int CustomerId { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    public string RecipientName { get; set; }
+
+    [Required]
+    [StringLength(200)]
+    [EmailAddress]
+    public string RecipientEmail { get; set; }
+
+    [Required]
+    [StringLength(15)]
+    [Phone]
+    public string RecipientPhone { get; set; }
+
+    // Sender's address (selected by customer)
+    [Required]
+    [StringLength(200)]
+    public string SenderAddress { get; set; }
+
+    // Sending date (either auto-set by the system or selected by the customer)
+    [Required]  // Or make it nullable if the system sets it later
+    public DateTime SendingDate { get; set; }
+
+    [Required]
+    [StringLength(200)]
+    public string RecipientAddress { get; set; }
+
+    public DateTime? ReceivingDate { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string ShipmentStatus { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string TrackingNumber { get; set; }
+
+    public int DriverId { get; set; }
+    
+    public ICollection<ShipmentItem> ShipmentItems { get; set; }
+}

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace WebApplication1.UserService.Models;
 
@@ -48,4 +49,6 @@ public class User
     [DataType(DataType.Password)]
     public string Password { get; set; }
     
+    [JsonIgnore]
+    public ICollection<UserRole> UserRoles { get; set; }
 }
