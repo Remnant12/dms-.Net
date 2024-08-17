@@ -140,3 +140,4 @@
 /home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/CustomerService/obj/Debug/net8.0/CustomerService.pdb
 /home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/CustomerService/obj/Debug/net8.0/CustomerService.genruntimeconfig.cache
 /home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/CustomerService/obj/Debug/net8.0/ref/CustomerService.dll
+/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/CustomerService/bin/Debug/net8.0/Swashbuckle.AspNetCore.Annotations.dll

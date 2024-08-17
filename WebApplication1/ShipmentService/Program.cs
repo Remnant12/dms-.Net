@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShipmentService.dbConfig;
+using ShipmentService.Services.Implementation;
+using ShipmentService.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +31,11 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
+builder.Services.AddScoped<ITrackingNumberGenerator, TrackingNumberGenerator>();
+builder.Services.AddHttpClient<ICustomerService, CustomerServiceClient>(client =>
+{
+    client.BaseAddress = new Uri("https://customer-service-url");
+});
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

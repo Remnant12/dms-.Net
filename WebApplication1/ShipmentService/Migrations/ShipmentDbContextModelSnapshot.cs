@@ -33,8 +33,28 @@ namespace ShipmentService.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Distance")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
                     b.Property<int>("DriverId")
                         .HasColumnType("int");
+
+                    b.Property<string>("OverallCharge")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("OverallVolume")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("OverallWeight")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime?>("ReceivingDate")
                         .HasColumnType("datetime(6)");
@@ -90,17 +110,12 @@ namespace ShipmentService.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ShipmentItemId"));
 
-                    b.Property<double>("Distance")
-                        .HasColumnType("double");
-
-                    b.Property<decimal>("OverallCharge")
+                    b.Property<decimal>("Charge")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<double>("OverallVolume")
-                        .HasColumnType("double");
-
-                    b.Property<double>("OverallWeight")
-                        .HasColumnType("double");
+                    b.Property<string>("ItemType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -109,6 +124,12 @@ namespace ShipmentService.Migrations
 
                     b.Property<int>("ShipmentId")
                         .HasColumnType("int");
+
+                    b.Property<double>("Volume")
+                        .HasColumnType("double");
+
+                    b.Property<double>("Weight")
+                        .HasColumnType("double");
 
                     b.HasKey("ShipmentItemId");
 

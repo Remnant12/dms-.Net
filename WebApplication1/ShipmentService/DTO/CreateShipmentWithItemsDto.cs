@@ -11,6 +11,12 @@ public class CreateShipmentWithItemsDto
     public string RecipientAddress { get; set; }
     public DateTime ReceivingDate { get; set; }
     public string ShipmentStatus { get; set; }
+    public string OverallVolume { get; set; }
+    public string OverallWeight { get; set; }
+    public string OverallCharge { get; set; }
+    
+    public string Distance { get; set; }
+
     public string TrackingNumber { get; set; }
     public int DriverId { get; set; }
     public List<CreateShipmentItemDto> ShipmentItems { get; set; }

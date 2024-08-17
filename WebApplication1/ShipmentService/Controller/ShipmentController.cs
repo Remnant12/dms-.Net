@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShipmentService.dbConfig;
 using ShipmentService.DTO;
 using ShipmentService.Models;
+using ShipmentService.Services.Interface;
 
 namespace ShipmentService.Controller;
 
@@ -11,10 +12,13 @@ namespace ShipmentService.Controller;
 public class ShipmentController : ControllerBase
 {
     private readonly ShipmentDbContext _context;
-    
-    public ShipmentController(ShipmentDbContext context)
+    private readonly ITrackingNumberGenerator _trackingNumberGenerator;
+
+    public ShipmentController(ShipmentDbContext context, ITrackingNumberGenerator? trackingNumberGenerator)
     {
         _context = context;
+        _trackingNumberGenerator = trackingNumberGenerator;
+
     }
     
     [HttpGet]
@@ -41,10 +45,6 @@ public class ShipmentController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Shipment>> PostShipment([FromBody] CreateShipmentWithItemsDto shipmentWithItemsDto)
     {
-        // _context.Shipments.Add(shipment);
-        // await _context.SaveChangesAsync();
-        //
-        // return CreatedAtAction(nameof(GetShipment), new { id = shipment.ShipmentId }, shipment);
 
         if (!ModelState.IsValid)
         {
@@ -62,7 +62,11 @@ public class ShipmentController : ControllerBase
             RecipientAddress = shipmentWithItemsDto.RecipientAddress,
             ReceivingDate = shipmentWithItemsDto.ReceivingDate,
             ShipmentStatus = shipmentWithItemsDto.ShipmentStatus,
-            TrackingNumber = shipmentWithItemsDto.TrackingNumber,
+            OverallVolume = shipmentWithItemsDto.OverallVolume,
+            OverallWeight = shipmentWithItemsDto.OverallWeight,
+            OverallCharge = shipmentWithItemsDto.OverallCharge,
+            Distance = shipmentWithItemsDto.Distance, 
+            TrackingNumber = _trackingNumberGenerator.GenerateTrackingNumber(),
             DriverId = shipmentWithItemsDto.DriverId
         }; 
         
@@ -73,10 +77,10 @@ public class ShipmentController : ControllerBase
         {
             ShipmentId = shipment.ShipmentId, // Use the ID of the created shipment
             ProductName = itemDto.ProductName,
-            Distance = itemDto.Distance,
-            OverallWeight = itemDto.OverallWeight,
-            OverallVolume = itemDto.OverallVolume,
-            OverallCharge = (decimal)itemDto.OverallCharge 
+            ItemType = itemDto.ItemType,
+            Weight = itemDto.Weight,
+            Volume = itemDto.Volume,
+            Charge = (decimal)itemDto.Charge 
         }).ToList();
         
         _context.ShipmentItems.AddRange(shipmentItems);

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShipmentService.dbConfig;
 using ShipmentService.Models;
+using ShipmentService.Services.Interface;
 
 namespace ShipmentService.Controller;
 
@@ -11,10 +12,12 @@ namespace ShipmentService.Controller;
 public class ShipmentItemController : ControllerBase
 {
     private readonly ShipmentDbContext _context;
-    
-    public ShipmentItemController(ShipmentDbContext context)
+    private readonly ITrackingNumberGenerator _trackingNumberGenerator;
+
+    public ShipmentItemController(ShipmentDbContext context, ITrackingNumberGenerator trackingNumberGenerator)
     {
         _context = context;
+        _trackingNumberGenerator = trackingNumberGenerator;
     }
     
     [HttpGet]

@@ -17,14 +17,13 @@ public class ShipmentItem
     public string ProductName { get; set; }
 
     [Required]
-    public double Distance { get; set; }  // Distance in kilometers or miles
+    public string ItemType { get; set; } 
+    [Required]
+    public double Weight { get; set; }  // Weight in kilograms or pounds
 
     [Required]
-    public double OverallWeight { get; set; }  // Weight in kilograms or pounds
+    public double Volume { get; set; }  // Volume in cubic meters or cubic feet
 
     [Required]
-    public double OverallVolume { get; set; }  // Volume in cubic meters or cubic feet
-
-    [Required]
-    public decimal OverallCharge { get; set; }
+    public decimal Charge { get; set; }
 }

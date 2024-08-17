@@ -42,6 +42,18 @@ public class Shipment
     [Required]
     [StringLength(50)]
     public string ShipmentStatus { get; set; }
+    [Required]
+    [StringLength(50)]
+    public string OverallVolume { get; set; }
+    [Required]
+    [StringLength(50)]
+    public string OverallWeight { get; set; }
+    [Required]
+    [StringLength(50)]
+    public string OverallCharge { get; set; }
+    [Required]
+    [StringLength(50)]
+    public string Distance { get; set; }
 
     [Required]
     [StringLength(50)]
