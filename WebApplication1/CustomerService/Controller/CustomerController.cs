@@ -1,4 +1,5 @@
 using CustomerService.Models;
+using CustomerService.Service.Implementation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,13 +10,15 @@ namespace CustomerService.Controller;
 public class CustomerController : ControllerBase
 {
     private readonly CustomerDbContext _context;
-    
+    private readonly JwtTokenDecode _jwtTokenDecode;
+
     public CustomerController(CustomerDbContext context)
     {
         _context = context;
+        _jwtTokenDecode = _jwtTokenDecode; 
     }
     
-    [HttpGet]
+    [HttpGet("hekko")]
     public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
     {
         return await _context.Customers.ToListAsync();
@@ -98,6 +101,26 @@ public class CustomerController : ControllerBase
     private bool CustomerExists(int id)
     {
         return _context.Customers.Any(e => e.CustomerId == id);
+    }
+    
+    [HttpGet("GetCustomerIdByPhone")]
+    public async Task<ActionResult<int?>> GetCustomerIdByPhone()
+    {
+        var phoneNumber = _jwtTokenDecode.GetPhoneNumberFromToken();
+
+        if (string.IsNullOrEmpty(phoneNumber))
+        {
+            return BadRequest("Phone number not found in token.");
+        }
+
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == phoneNumber);
+
+        if (customer == null)
+        {
+            return NotFound("Customer not found.");
+        }
+
+        return Ok(customer.CustomerId);
     }
 
 }

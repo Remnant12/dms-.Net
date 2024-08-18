@@ -1,8 +1,10 @@
+using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShipmentService.dbConfig;
 using ShipmentService.DTO;
 using ShipmentService.Models;
+using ShipmentService.Services.Implementation;
 using ShipmentService.Services.Interface;
 
 namespace ShipmentService.Controller;
@@ -13,11 +15,15 @@ public class ShipmentController : ControllerBase
 {
     private readonly ShipmentDbContext _context;
     private readonly ITrackingNumberGenerator _trackingNumberGenerator;
+    private readonly ICustomerService _customerService;
 
-    public ShipmentController(ShipmentDbContext context, ITrackingNumberGenerator? trackingNumberGenerator)
+    public ShipmentController(ShipmentDbContext context, ITrackingNumberGenerator? trackingNumberGenerator,
+        ICustomerService? customerService)
     {
         _context = context;
         _trackingNumberGenerator = trackingNumberGenerator;
+        _customerService = customerService;
+
 
     }
     
@@ -50,10 +56,19 @@ public class ShipmentController : ControllerBase
         {
             return BadRequest(ModelState); 
         }
+        
+        var token = HttpContext.Request.Headers["Authorization"].ToString();
+        var customerId = await GetCustomerIdFromCustomerService(token);
 
+        if (customerId == null)
+        {
+            return Unauthorized("Invalid token or customer not found.");
+        }
+        
         var shipment = new Shipment
         {
-            CustomerId = shipmentWithItemsDto.CustomerId,
+            // CustomerId = shipmentWithItemsDto.CustomerId,
+            CustomerId = customerId.Value,
             RecipientName = shipmentWithItemsDto.RecipientName,
             RecipientEmail = shipmentWithItemsDto.RecipientEmail,
             RecipientPhone = shipmentWithItemsDto.RecipientPhone,
@@ -136,6 +151,21 @@ public class ShipmentController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
+    }
+    
+    private async Task<int?> GetCustomerIdFromCustomerService(string token)
+    {
+        using var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var response = await httpClient.GetAsync("http://localhost:5000/api/Customer/GetCustomerIdByPhone"); // Adjust URL as needed
+
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<int?>();
+        }
+
+        return null;
     }
 
 

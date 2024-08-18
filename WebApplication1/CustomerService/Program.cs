@@ -66,7 +66,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddScoped<IJwtService, JwtService>();
-
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<JwtTokenDecode>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

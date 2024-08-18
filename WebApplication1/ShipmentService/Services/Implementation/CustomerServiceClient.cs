@@ -13,7 +13,7 @@ public class CustomerServiceClient : ICustomerService
     
     public async Task<int?> GetCustomerIdByTokenAsync(string token)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "api/customer/id");
+        var request = new HttpRequestMessage(HttpMethod.Get, "api/Customer/id");
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var response = await _httpClient.SendAsync(request);

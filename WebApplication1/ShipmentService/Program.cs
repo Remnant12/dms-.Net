@@ -30,12 +30,13 @@ builder.Services.AddCors(options =>
         });
 });
 
-var app = builder.Build();
 builder.Services.AddScoped<ITrackingNumberGenerator, TrackingNumberGenerator>();
 builder.Services.AddHttpClient<ICustomerService, CustomerServiceClient>(client =>
 {
-    client.BaseAddress = new Uri("https://customer-service-url");
+    client.BaseAddress = new Uri("https://localhost:5280");
 });
+var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
