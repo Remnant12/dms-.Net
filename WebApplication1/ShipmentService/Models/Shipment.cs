@@ -44,13 +44,13 @@ public class Shipment
     public string ShipmentStatus { get; set; }
     [Required]
     [StringLength(50)]
-    public string OverallVolume { get; set; }
+    public float OverallVolume { get; set; }
     [Required]
     [StringLength(50)]
-    public string OverallWeight { get; set; }
+    public float OverallWeight { get; set; }
     [Required]
     [StringLength(50)]
-    public string OverallCharge { get; set; }
+    public float OverallCharge { get; set; }
     [Required]
     [StringLength(50)]
     public string Distance { get; set; }

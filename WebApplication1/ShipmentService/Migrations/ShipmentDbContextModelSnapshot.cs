@@ -41,20 +41,17 @@ namespace ShipmentService.Migrations
                     b.Property<int>("DriverId")
                         .HasColumnType("int");
 
-                    b.Property<string>("OverallCharge")
-                        .IsRequired()
+                    b.Property<float>("OverallCharge")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("float");
 
-                    b.Property<string>("OverallVolume")
-                        .IsRequired()
+                    b.Property<float>("OverallVolume")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("float");
 
-                    b.Property<string>("OverallWeight")
-                        .IsRequired()
+                    b.Property<float>("OverallWeight")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("ReceivingDate")
                         .HasColumnType("datetime(6)");

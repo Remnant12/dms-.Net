@@ -11,11 +11,13 @@ public class CustomerController : ControllerBase
 {
     private readonly CustomerDbContext _context;
     private readonly JwtTokenDecode _jwtTokenDecode;
+    private readonly ILogger<CustomerController> _logger;
 
-    public CustomerController(CustomerDbContext context)
+    public CustomerController(CustomerDbContext context,   ILogger<CustomerController> logger,  JwtTokenDecode jwtTokenDecode)
     {
         _context = context;
-        _jwtTokenDecode = _jwtTokenDecode; 
+        _logger = logger; 
+        _jwtTokenDecode = jwtTokenDecode; 
     }
     
     [HttpGet("hekko")]
@@ -106,6 +108,8 @@ public class CustomerController : ControllerBase
     [HttpGet("GetCustomerIdByPhone")]
     public async Task<ActionResult<int?>> GetCustomerIdByPhone()
     {
+        _logger.LogInformation("GetCustomerIdByPhone API called.");
+        
         var phoneNumber = _jwtTokenDecode.GetPhoneNumberFromToken();
 
         if (string.IsNullOrEmpty(phoneNumber))

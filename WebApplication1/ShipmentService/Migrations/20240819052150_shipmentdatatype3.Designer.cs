@@ -12,8 +12,8 @@ using ShipmentService.dbConfig;
 namespace ShipmentService.Migrations
 {
     [DbContext(typeof(ShipmentDbContext))]
-    [Migration("20240817042732_shipmentUpdated2")]
-    partial class shipmentUpdated2
+    [Migration("20240819052150_shipmentdatatype3")]
+    partial class shipmentdatatype3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,20 +44,17 @@ namespace ShipmentService.Migrations
                     b.Property<int>("DriverId")
                         .HasColumnType("int");
 
-                    b.Property<string>("OverallCharge")
-                        .IsRequired()
+                    b.Property<float>("OverallCharge")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("float");
 
-                    b.Property<string>("OverallVolume")
-                        .IsRequired()
+                    b.Property<float>("OverallVolume")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("float");
 
-                    b.Property<string>("OverallWeight")
-                        .IsRequired()
+                    b.Property<float>("OverallWeight")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("ReceivingDate")
                         .HasColumnType("datetime(6)");

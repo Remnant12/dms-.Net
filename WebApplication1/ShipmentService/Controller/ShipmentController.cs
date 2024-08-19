@@ -15,15 +15,17 @@ public class ShipmentController : ControllerBase
 {
     private readonly ShipmentDbContext _context;
     private readonly ITrackingNumberGenerator _trackingNumberGenerator;
-    private readonly ICustomerService _customerService;
+    private readonly ILogger<ShipmentController> _logger;
+
+    // private readonly ICustomerService _customerService;
 
     public ShipmentController(ShipmentDbContext context, ITrackingNumberGenerator? trackingNumberGenerator,
-        ICustomerService? customerService)
+        ICustomerService? customerService, ILogger<ShipmentController> logger)
     {
         _context = context;
         _trackingNumberGenerator = trackingNumberGenerator;
-        _customerService = customerService;
-
+        _logger = logger; 
+        // _customerService = customerService;
 
     }
     
@@ -51,57 +53,76 @@ public class ShipmentController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Shipment>> PostShipment([FromBody] CreateShipmentWithItemsDto shipmentWithItemsDto)
     {
-
-        if (!ModelState.IsValid)
+        try
         {
-            return BadRequest(ModelState); 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var token = HttpContext.Request.Headers["Authorization"].ToString();
+            _logger.LogInformation("Received token: {Token}", token);
+
+            var customerId = await GetCustomerIdFromCustomerService(token);
+
+            if (customerId == null)
+            {
+                return Unauthorized("Invalid token or customer not found.");
+            }
+
+            var shipment = new Shipment
+            {
+                // CustomerId = shipmentWithItemsDto.CustomerId,
+                CustomerId = customerId.Value,
+                // CustomerId = 1,
+                RecipientName = shipmentWithItemsDto.RecipientName,
+                RecipientEmail = shipmentWithItemsDto.RecipientEmail,
+                RecipientPhone = shipmentWithItemsDto.RecipientPhone,
+                SenderAddress = shipmentWithItemsDto.SenderAddress,
+                SendingDate = shipmentWithItemsDto.SendingDate,
+                RecipientAddress = shipmentWithItemsDto.RecipientAddress,
+                ReceivingDate = shipmentWithItemsDto.ReceivingDate,
+                ShipmentStatus = shipmentWithItemsDto.ShipmentStatus,
+                OverallVolume = shipmentWithItemsDto.OverallVolume,
+                OverallWeight = shipmentWithItemsDto.OverallWeight,
+                OverallCharge = shipmentWithItemsDto.OverallCharge,
+                Distance = shipmentWithItemsDto.Distance,
+                TrackingNumber = _trackingNumberGenerator.GenerateTrackingNumber(),
+                // TrackingNumber = "2232",
+                // DriverId = shipmentWithItemsDto.DriverId, 
+                DriverId = 1,
+            };
+            
+
+            _context.Shipments.Add(shipment);
+            await _context.SaveChangesAsync();
+
+
+
+            var shipmentItems = shipmentWithItemsDto.ShipmentItems.Select(itemDto => new ShipmentItem
+            {
+                ShipmentId = shipment.ShipmentId, // Use the ID of the created shipment
+                ProductName = itemDto.ProductName,
+                ItemType = itemDto.ItemType,
+                Weight = itemDto.Weight,
+                Volume = itemDto.Volume,
+                Charge = (decimal)itemDto.Charge
+            }).ToList();
+
+            _context.ShipmentItems.AddRange(shipmentItems);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Shipment created successfully with ID: {ShipmentId}", shipment.ShipmentId);
+
+
+            return CreatedAtAction(nameof(GetShipmentById), new { id = shipment.ShipmentId }, shipment);
         }
-        
-        var token = HttpContext.Request.Headers["Authorization"].ToString();
-        var customerId = await GetCustomerIdFromCustomerService(token);
-
-        if (customerId == null)
+        catch (Exception ex)
         {
-            return Unauthorized("Invalid token or customer not found.");
+            _logger.LogError("An error occurred while creating shipment: {Message}", ex.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "An error occurred while creating shipment.", Details = ex.Message });
+            
         }
-        
-        var shipment = new Shipment
-        {
-            // CustomerId = shipmentWithItemsDto.CustomerId,
-            CustomerId = customerId.Value,
-            RecipientName = shipmentWithItemsDto.RecipientName,
-            RecipientEmail = shipmentWithItemsDto.RecipientEmail,
-            RecipientPhone = shipmentWithItemsDto.RecipientPhone,
-            SenderAddress = shipmentWithItemsDto.SenderAddress,
-            SendingDate = shipmentWithItemsDto.SendingDate,
-            RecipientAddress = shipmentWithItemsDto.RecipientAddress,
-            ReceivingDate = shipmentWithItemsDto.ReceivingDate,
-            ShipmentStatus = shipmentWithItemsDto.ShipmentStatus,
-            OverallVolume = shipmentWithItemsDto.OverallVolume,
-            OverallWeight = shipmentWithItemsDto.OverallWeight,
-            OverallCharge = shipmentWithItemsDto.OverallCharge,
-            Distance = shipmentWithItemsDto.Distance, 
-            TrackingNumber = _trackingNumberGenerator.GenerateTrackingNumber(),
-            DriverId = shipmentWithItemsDto.DriverId
-        }; 
-        
-        _context.Shipments.Add(shipment);
-        await _context.SaveChangesAsync();
-
-        var shipmentItems = shipmentWithItemsDto.ShipmentItems.Select(itemDto => new ShipmentItem
-        {
-            ShipmentId = shipment.ShipmentId, // Use the ID of the created shipment
-            ProductName = itemDto.ProductName,
-            ItemType = itemDto.ItemType,
-            Weight = itemDto.Weight,
-            Volume = itemDto.Volume,
-            Charge = (decimal)itemDto.Charge 
-        }).ToList();
-        
-        _context.ShipmentItems.AddRange(shipmentItems);
-        await _context.SaveChangesAsync();
-        
-        return CreatedAtAction(nameof(GetShipmentById), new { id = shipment.ShipmentId }, shipment);
     }
     
     [HttpPut("{id}")]
@@ -157,8 +178,9 @@ public class ShipmentController : ControllerBase
     {
         using var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        _logger.LogInformation("Received token in GetCustomerIdFromCustomerService: {Token}", token);
 
-        var response = await httpClient.GetAsync("http://localhost:5000/api/Customer/GetCustomerIdByPhone"); // Adjust URL as needed
+        var response = await httpClient.GetAsync("http://localhost:5280/api/Customer/GetCustomerIdByPhone"); // Adjust URL as needed
 
         if (response.IsSuccessStatusCode)
         {

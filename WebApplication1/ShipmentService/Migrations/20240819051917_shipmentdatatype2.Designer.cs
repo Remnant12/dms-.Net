@@ -12,8 +12,8 @@ using ShipmentService.dbConfig;
 namespace ShipmentService.Migrations
 {
     [DbContext(typeof(ShipmentDbContext))]
-    [Migration("20240817022500_shipmentUpdated1")]
-    partial class shipmentUpdated1
+    [Migration("20240819051917_shipmentdatatype2")]
+    partial class shipmentdatatype2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,20 +44,17 @@ namespace ShipmentService.Migrations
                     b.Property<int>("DriverId")
                         .HasColumnType("int");
 
-                    b.Property<string>("OverallCharge")
-                        .IsRequired()
+                    b.Property<float>("OverallCharge")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("float");
 
-                    b.Property<string>("OverallVolume")
-                        .IsRequired()
+                    b.Property<float>("OverallVolume")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("float");
 
-                    b.Property<string>("OverallWeight")
-                        .IsRequired()
+                    b.Property<float>("OverallWeight")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("ReceivingDate")
                         .HasColumnType("datetime(6)");
@@ -113,18 +110,12 @@ namespace ShipmentService.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ShipmentItemId"));
 
+                    b.Property<decimal>("Charge")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<string>("ItemType")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<decimal>("OverallCharge")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<double>("OverallVolume")
-                        .HasColumnType("double");
-
-                    b.Property<double>("OverallWeight")
-                        .HasColumnType("double");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -133,6 +124,12 @@ namespace ShipmentService.Migrations
 
                     b.Property<int>("ShipmentId")
                         .HasColumnType("int");
+
+                    b.Property<double>("Volume")
+                        .HasColumnType("double");
+
+                    b.Property<double>("Weight")
+                        .HasColumnType("double");
 
                     b.HasKey("ShipmentItemId");
 
@@ -144,7 +141,7 @@ namespace ShipmentService.Migrations
             modelBuilder.Entity("ShipmentService.Models.ShipmentItem", b =>
                 {
                     b.HasOne("ShipmentService.Models.Shipment", "Shipment")
-                        .WithMany("ShipmentItems")
+                        .WithMany("items")
                         .HasForeignKey("ShipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -154,7 +151,7 @@ namespace ShipmentService.Migrations
 
             modelBuilder.Entity("ShipmentService.Models.Shipment", b =>
                 {
-                    b.Navigation("ShipmentItems");
+                    b.Navigation("items");
                 });
 #pragma warning restore 612, 618
         }
