@@ -465,11 +465,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/Driver/Driver.csproj",
-      "projectName": "Driver",
-      "projectPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/Driver/Driver.csproj",
+      "projectUniqueName": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/DriverService/DriverService.csproj",
+      "projectName": "DriverService",
+      "projectPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/DriverService/DriverService.csproj",
       "packagesPath": "/home/saai/.nuget/packages/",
-      "outputPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/Driver/obj/",
+      "outputPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/DriverService/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/saai/.nuget/NuGet/NuGet.Config"

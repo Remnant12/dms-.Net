@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShipmentService", "Shipment
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerService", "CustomerService\CustomerService.csproj", "{E1FD3BA7-6446-4166-8CDE-6FB2904D86C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver", "Driver\Driver.csproj", "{74A8BEC9-8EF3-4AD1-8A94-33D7D84BD699}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverService", "DriverService\DriverService.csproj", "{74A8BEC9-8EF3-4AD1-8A94-33D7D84BD699}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
