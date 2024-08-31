@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MW2V/8GJH8lTV11vJz8qhiEwTeMhiBSVkjcjxGXvCNV3QqCotrCeKM7k+uqNLg7t/okg8Vdnm4vGzljkpvClsw==",
+  "dgSpecHash": "d5pqB68+an4=",
   "success": true,
-  "projectFilePath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/ShipmentService/ShipmentService.csproj",
+  "projectFilePath": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/ShipmentService/ShipmentService.csproj",
   "expectedPackageFiles": [
     "/home/saai/.nuget/packages/azure.core/1.25.0/azure.core.1.25.0.nupkg.sha512",
     "/home/saai/.nuget/packages/azure.identity/1.7.0/azure.identity.1.7.0.nupkg.sha512",
@@ -87,7 +87,8 @@
     "/home/saai/.nuget/packages/system.text.json/8.0.4/system.text.json.8.0.4.nupkg.sha512",
     "/home/saai/.nuget/packages/system.threading.channels/6.0.0/system.threading.channels.6.0.0.nupkg.sha512",
     "/home/saai/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "/home/saai/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512"
+    "/home/saai/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512",
+    "/home/saai/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.8/microsoft.aspnetcore.app.ref.8.0.8.nupkg.sha512"
   ],
   "logs": [
     {

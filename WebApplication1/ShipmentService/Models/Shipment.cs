@@ -8,6 +8,7 @@ public class Shipment
     [Key]
     public int ShipmentId { get; set; }
 
+    [Required]
     public int CustomerId { get; set; }
 
     [Required]

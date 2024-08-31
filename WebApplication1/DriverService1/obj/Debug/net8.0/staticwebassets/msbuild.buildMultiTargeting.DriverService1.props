@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/DriverService1.props" />
+</Project>

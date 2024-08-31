@@ -4542,11 +4542,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/ShipmentService/ShipmentService.csproj",
+      "projectUniqueName": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/ShipmentService/ShipmentService.csproj",
       "projectName": "ShipmentService",
-      "projectPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/ShipmentService/ShipmentService.csproj",
+      "projectPath": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/ShipmentService/ShipmentService.csproj",
       "packagesPath": "/home/saai/.nuget/packages/",
-      "outputPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/ShipmentService/obj/",
+      "outputPath": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/ShipmentService/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/saai/.nuget/NuGet/NuGet.Config"
@@ -4567,6 +4567,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -4611,6 +4616,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.8, 8.0.8]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -4619,7 +4630,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   },

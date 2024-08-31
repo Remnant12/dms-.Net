@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "Szu7Q7DxxJSieP8PHwNlcq/XJYsttSRhjrUZL57iAUw=",
+  "Source": "DriverService",
+  "BasePath": "_content/DriverService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

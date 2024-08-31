@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/DriverService/DriverService.csproj": {}
+    "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/DriverService/DriverService.csproj": {}
   },
   "projects": {
-    "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/DriverService/DriverService.csproj": {
+    "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/DriverService/DriverService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/DriverService/DriverService.csproj",
+        "projectUniqueName": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/DriverService/DriverService.csproj",
         "projectName": "DriverService",
-        "projectPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/DriverService/DriverService.csproj",
+        "projectPath": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/DriverService/DriverService.csproj",
         "packagesPath": "/home/saai/.nuget/packages/",
-        "outputPath": "/home/saai/Documents/Projects/DMS/dms-.Net/WebApplication1/DriverService/obj/",
+        "outputPath": "/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/DriverService/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/saai/.nuget/NuGet/NuGet.Config"
@@ -32,15 +32,38 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net": {
+              "target": "Package",
+              "version": "[0.1.0, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -58,6 +81,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.8, 8.0.8]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -66,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
