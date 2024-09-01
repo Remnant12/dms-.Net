@@ -12,6 +12,9 @@ public class Role
     [MaxLength(50)]
     public string RoleName { get; set; }
 
-    [JsonIgnore]
-    public ICollection<UserRole> UserRoles { get; set; }
+    // [JsonIgnore]
+    // public ICollection<UserRole> UserRoles { get; set; }
+    
+    [Required]
+    public ICollection<User> Users { get; set; }
 }

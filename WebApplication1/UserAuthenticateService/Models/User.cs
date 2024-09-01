@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace WebApplication1.UserService.Models;
@@ -49,6 +50,11 @@ public class User
     [DataType(DataType.Password)]
     public string Password { get; set; }
     
-    [JsonIgnore]
-    public ICollection<UserRole> UserRoles { get; set; }
+    // [JsonIgnore]
+    // public ICollection<UserRole> UserRoles { get; set; }
+    
+    [Required]
+    [ForeignKey("RoleId")]
+    public int RoleId { get; set; } // Single RoleId instead of ICollection<UserRole>
+    public Role Role { get; set; }
 }

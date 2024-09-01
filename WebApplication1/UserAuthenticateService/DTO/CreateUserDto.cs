@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DefaultNamespace;
 
@@ -45,5 +46,8 @@ public class CreateUserDto
     [DataType(DataType.Password)]
     public string Password { get; set; }
 
-    public List<int> RoleIds { get; set; }
+    // public List<int> RoleIds { get; set; }
+    
+    [Required]
+    public int RoleId { get; set; }
 }

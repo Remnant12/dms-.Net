@@ -34,7 +34,6 @@ public class UsersController : ControllerBase
         // user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
         // _context.Users.Add(user);
         // await _context.SaveChangesAsync();
-        //
         // return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
 
         if (!ModelState.IsValid)
@@ -42,6 +41,14 @@ public class UsersController : ControllerBase
             return BadRequest(ModelState); 
         }
 
+        // Check if the provided RoleId exists in the Roles table
+        var roleExists = await _context.Roles.AnyAsync(r => r.RoleId == userDto.RoleId);
+        if (!roleExists)
+        {
+            // If RoleId doesn't exist, throw an exception or return a bad request
+            return BadRequest($"RoleId {userDto.RoleId} is invalid. Please provide a valid RoleId.");
+        }
+        
         var user = new User
         {
             FirstName = userDto.FirstName,
@@ -53,24 +60,13 @@ public class UsersController : ControllerBase
             PostalCode = userDto.PostalCode,
             Province = userDto.Province,
             City = userDto.City,
-            Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password)
+            Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password),
+            RoleId = userDto.RoleId 
         };
         
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         
-        // Handle role assignments
-        if (userDto.RoleIds.Any())
-        {
-            var userRoles = userDto.RoleIds.Select(roleId => new UserRole
-            {
-                UserId = user.Id,
-                RoleId = roleId
-            }).ToList();
-
-            _context.UserRoles.AddRange(userRoles);
-            await _context.SaveChangesAsync();
-        }
 
         return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
     }
@@ -80,8 +76,10 @@ public class UsersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> GetUser(int id)
     {
-        var user = await _context.Users.FindAsync(id);
-
+        var user = await _context.Users
+            .Include(u => u.Role) // This will ensure the Role is included
+            .FirstOrDefaultAsync(u => u.Id == id);
+        
         if (user == null)
         {
             return NotFound();
@@ -109,7 +107,7 @@ public class UsersController : ControllerBase
         }
         
         var existingUser = await _context.Users
-            .Include(u => u.UserRoles)
+            .Include(u => u.Role)
             .FirstOrDefaultAsync(u => u.Id == id);
         
         if (existingUser == null)
@@ -127,20 +125,30 @@ public class UsersController : ControllerBase
         existingUser.Province = updateUserDto.Province;
         existingUser.City = updateUserDto.City;
         
-        if (updateUserDto.RoleIds != null && updateUserDto.RoleIds.Any())
+        // if (updateUserDto.RoleIds != null && updateUserDto.RoleIds.Any())
+        // {
+        //     // Remove existing roles
+        //     _context.UserRoles.RemoveRange(existingUser.UserRoles);
+        //
+        //     // Assign new roles
+        //     var userRoles = updateUserDto.RoleIds.Select(roleId => new UserRole
+        //     {
+        //         UserId = existingUser.Id,
+        //         RoleId = roleId
+        //     }).ToList();
+        //
+        //     _context.UserRoles.AddRange(userRoles);
+        // }
+        
+        // Fetch the role from the database
+        var role = await _context.Roles.FindAsync(updateUserDto.RoleId);
+        if (role == null)
         {
-            // Remove existing roles
-            _context.UserRoles.RemoveRange(existingUser.UserRoles);
-
-            // Assign new roles
-            var userRoles = updateUserDto.RoleIds.Select(roleId => new UserRole
-            {
-                UserId = existingUser.Id,
-                RoleId = roleId
-            }).ToList();
-
-            _context.UserRoles.AddRange(userRoles);
+            return BadRequest("Invalid role ID");
         }
+        
+        // Update the role ID for the user
+        existingUser.RoleId = updateUserDto.RoleId;
         
         _context.Entry(existingUser).State = EntityState.Modified;
 
@@ -167,7 +175,7 @@ public class UsersController : ControllerBase
             firstName = existingUser.FirstName,
             lastName = existingUser.LastName,
             email = existingUser.Email,
-            roleIds = updateUserDto.RoleIds
+            roleIds = updateUserDto.RoleId
         });
 
         return NoContent();

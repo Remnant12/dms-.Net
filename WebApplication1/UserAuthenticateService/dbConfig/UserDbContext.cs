@@ -9,20 +9,26 @@ namespace UserService.Data
         
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
+        // public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<TokenBlacklist> TokenBlacklist { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.User)
-                .WithMany(u => u.UserRoles)
-                .HasForeignKey(ur => ur.UserId);
-
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.Role)
-                .WithMany(r => r.UserRoles)
-                .HasForeignKey(ur => ur.RoleId);
+            // modelBuilder.Entity<UserRole>()
+            //     .HasOne(ur => ur.User)
+            //     .WithMany(u => u.UserRoles)
+            //     .HasForeignKey(ur => ur.UserId);
+            //
+            // modelBuilder.Entity<UserRole>()
+            //     .HasOne(ur => ur.Role)
+            //     .WithMany(r => r.UserRoles)
+            //     .HasForeignKey(ur => ur.RoleId);
+            
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role)
+                .WithMany(r => r.Users) // Assuming Role has a collection of Users
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

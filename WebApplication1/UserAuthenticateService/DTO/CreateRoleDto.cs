@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WebApplication1.UserService.Models;
 
 
 namespace DefaultNamespace;
