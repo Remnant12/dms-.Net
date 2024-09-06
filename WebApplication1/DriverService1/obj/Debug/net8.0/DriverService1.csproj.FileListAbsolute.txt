@@ -139,3 +139,4 @@
 /home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/DriverService1/obj/Debug/net8.0/DriverService1.pdb
 /home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/DriverService1/obj/Debug/net8.0/DriverService1.genruntimeconfig.cache
 /home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/DriverService1/obj/Debug/net8.0/ref/DriverService1.dll
+/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/DriverService1/bin/Debug/net8.0/RabbitMQ.Client.dll

@@ -1,11 +1,13 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using DefaultNamespace;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using RabbitMQ.Client;
 using UserService.Data;
 using WebApplication1.UserService.Models;
 
@@ -67,8 +69,23 @@ public class UsersController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         
+        Console.WriteLine($"User ID: {user.Id}");
+        
+        var factory = new ConnectionFactory() { HostName = "localhost" };
+        using (var connection = factory.CreateConnection())
+        using (var channel = connection.CreateModel())
+        {
+            channel.QueueDeclare(queue: "user.created", durable: false, exclusive: false, autoDelete: false, arguments: null);
 
-        return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+            var message = JsonSerializer.Serialize(new { UserId = user.Id });
+            var body = Encoding.UTF8.GetBytes(message);
+            
+            Console.WriteLine($"Publishing message: {message}");
+
+            channel.BasicPublish(exchange: "", routingKey: "user.created", basicProperties: null, body: body);
+        }
+        
+        return CreatedAtAction(nameof(GetUser), new { id = user.Id }, new { userId = user.Id });
     }
 
 
@@ -196,6 +213,7 @@ public class UsersController : ControllerBase
 
         return NoContent();
     }
+    
 
     private bool UserExists(int id)
     {

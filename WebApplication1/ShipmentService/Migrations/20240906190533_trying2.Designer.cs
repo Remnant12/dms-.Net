@@ -12,8 +12,8 @@ using ShipmentService.dbConfig;
 namespace ShipmentService.Migrations
 {
     [DbContext(typeof(ShipmentDbContext))]
-    [Migration("20240819051917_shipmentdatatype2")]
-    partial class shipmentdatatype2
+    [Migration("20240906190533_trying2")]
+    partial class trying2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,15 @@ namespace ShipmentService.Migrations
                     b.Property<float>("OverallWeight")
                         .HasMaxLength(50)
                         .HasColumnType("float");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Priority2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Priority3")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ReceivingDate")
                         .HasColumnType("datetime(6)");
@@ -141,7 +150,7 @@ namespace ShipmentService.Migrations
             modelBuilder.Entity("ShipmentService.Models.ShipmentItem", b =>
                 {
                     b.HasOne("ShipmentService.Models.Shipment", "Shipment")
-                        .WithMany("items")
+                        .WithMany("ShipmentItems")
                         .HasForeignKey("ShipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -151,7 +160,7 @@ namespace ShipmentService.Migrations
 
             modelBuilder.Entity("ShipmentService.Models.Shipment", b =>
                 {
-                    b.Navigation("items");
+                    b.Navigation("ShipmentItems");
                 });
 #pragma warning restore 612, 618
         }

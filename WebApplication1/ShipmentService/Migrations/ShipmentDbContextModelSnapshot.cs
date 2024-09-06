@@ -53,6 +53,15 @@ namespace ShipmentService.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("float");
 
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Priority2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Priority3")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("ReceivingDate")
                         .HasColumnType("datetime(6)");
 

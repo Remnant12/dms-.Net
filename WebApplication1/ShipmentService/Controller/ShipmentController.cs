@@ -16,15 +16,19 @@ public class ShipmentController : ControllerBase
     private readonly ShipmentDbContext _context;
     private readonly ITrackingNumberGenerator _trackingNumberGenerator;
     private readonly ILogger<ShipmentController> _logger;
-
+    private CalculatePriority _calculatePriority;
+    
+    
     // private readonly ICustomerService _customerService;
 
     public ShipmentController(ShipmentDbContext context, ITrackingNumberGenerator? trackingNumberGenerator,
-        ICustomerService? customerService, ILogger<ShipmentController> logger)
+        ICustomerService? customerService, ILogger<ShipmentController> logger, CalculatePriority calculatePriority)
     {
         _context = context;
         _trackingNumberGenerator = trackingNumberGenerator;
         _logger = logger; 
+        _calculatePriority = calculatePriority;
+        
         // _customerService = customerService;
 
     }
@@ -60,21 +64,21 @@ public class ShipmentController : ControllerBase
                 return BadRequest(ModelState);
             }
 
-            var token = HttpContext.Request.Headers["Authorization"].ToString();
-            _logger.LogInformation("Received token: {Token}", token);
-
-            var customerId = await GetCustomerIdFromCustomerService(token);
-
-            if (customerId == null)
-            {
-                return Unauthorized("Invalid token or customer not found.");
-            }
+            // var token = HttpContext.Request.Headers["Authorization"].ToString();
+            // _logger.LogInformation("Received token: {Token}", token);
+            //
+            // var customerId = await GetCustomerIdFromCustomerService(token);
+            //
+            // if (customerId == null)
+            // {
+            //     return Unauthorized("Invalid token or customer not found.");
+            // }
 
             var shipment = new Shipment
             {
                 // CustomerId = shipmentWithItemsDto.CustomerId,
-                CustomerId = customerId.Value,
-                // CustomerId = 1,
+                // CustomerId = customerId.Value,
+                CustomerId = 1,
                 RecipientName = shipmentWithItemsDto.RecipientName,
                 RecipientEmail = shipmentWithItemsDto.RecipientEmail,
                 RecipientPhone = shipmentWithItemsDto.RecipientPhone,
@@ -90,15 +94,13 @@ public class ShipmentController : ControllerBase
                 TrackingNumber = _trackingNumberGenerator.GenerateTrackingNumber(),
                 // TrackingNumber = "2232",
                 // DriverId = shipmentWithItemsDto.DriverId, 
+                Priority = _calculatePriority.calculatePriority(shipmentWithItemsDto.SendingDate, shipmentWithItemsDto.ReceivingDate),
                 DriverId = 1,
             };
-            
 
             _context.Shipments.Add(shipment);
             await _context.SaveChangesAsync();
-
-
-
+            
             var shipmentItems = shipmentWithItemsDto.ShipmentItems.Select(itemDto => new ShipmentItem
             {
                 ShipmentId = shipment.ShipmentId, // Use the ID of the created shipment

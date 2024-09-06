@@ -1,6 +1,8 @@
+using System.Collections.Concurrent;
 using DriverService1.dbConfig;
 using DriverService1.DTO;
 using DriverService1.Models;
+using DriverService1.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +13,12 @@ namespace DriverService1.Controller;
 public class DriverController : ControllerBase
 {
     private readonly DriverDbContext _context;
+    private readonly SharedStateService _sharedStateService;
 
-    public DriverController(DriverDbContext context)
+    public DriverController(DriverDbContext context, SharedStateService sharedStateService)
     {
         _context = context;
+        _sharedStateService = sharedStateService;
     }
     
     [HttpGet("GetDrivers")]
@@ -42,6 +46,20 @@ public class DriverController : ControllerBase
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
+        }
+        
+        Console.WriteLine($"SharedStateService.UserId in Controller: {_sharedStateService.UserId}");
+        Console.WriteLine($"UserId in driverCreateDto: {driverCreateDto.UserId}");
+        
+        // Assign UserId from SharedStateService if it's not already set in the DTO
+        if (driverCreateDto.UserId == 0 && _sharedStateService.UserId.HasValue)
+        {
+            driverCreateDto.UserId = _sharedStateService.UserId.Value;
+        }
+        
+        if (!_sharedStateService.UserId.HasValue || _sharedStateService.UserId != driverCreateDto.UserId)
+        {
+            return BadRequest("UserId is not valid.");
         }
 
         var driver = new Driver
@@ -112,4 +130,5 @@ public class DriverController : ControllerBase
 
         return NoContent();
     }
+    
 }

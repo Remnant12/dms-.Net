@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ShipmentService.Constants;
 
 namespace ShipmentService.Models;
 
@@ -61,6 +62,16 @@ public class Shipment
     public string TrackingNumber { get; set; }
 
     public int DriverId { get; set; }
+    
+    [Required]
+    public PriorityLevel Priority { get; set; }
+    
+    
+    [Required]
+    public PriorityLevel Priority2 { get; set; }
+    
+    [Required]
+    public PriorityLevel Priority3 { get; set; }
     
     public ICollection<ShipmentItem> ShipmentItems { get; set; }
 }

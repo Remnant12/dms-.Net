@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace ShipmentService.Migrations
+namespace VehicleService.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class initialV : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

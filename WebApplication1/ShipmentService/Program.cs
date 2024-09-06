@@ -35,6 +35,8 @@ builder.Services.AddHttpClient<ICustomerService, CustomerServiceClient>(client =
 {
     client.BaseAddress = new Uri("https://localhost:5280");
 });
+builder.Services.AddScoped<IMigrationService, MigrationService>();
+builder.Services.AddTransient<CalculatePriority>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

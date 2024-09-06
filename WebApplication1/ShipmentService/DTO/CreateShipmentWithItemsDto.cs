@@ -1,3 +1,5 @@
+using ShipmentService.Constants;
+
 namespace ShipmentService.DTO;
 
 public class CreateShipmentWithItemsDto
@@ -15,6 +17,8 @@ public class CreateShipmentWithItemsDto
     public float OverallCharge { get; set; }
     
     public string Distance { get; set; }
+    
+    public PriorityLevel Priority { get; set; }
 
     public List<CreateShipmentItemDto> ShipmentItems { get; set; }
 }

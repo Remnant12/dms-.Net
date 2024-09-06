@@ -12,8 +12,8 @@ using ShipmentService.dbConfig;
 namespace ShipmentService.Migrations
 {
     [DbContext(typeof(ShipmentDbContext))]
-    [Migration("20240819052150_shipmentdatatype3")]
-    partial class shipmentdatatype3
+    [Migration("20240906185236_trying")]
+    partial class trying
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,12 @@ namespace ShipmentService.Migrations
                     b.Property<float>("OverallWeight")
                         .HasMaxLength(50)
                         .HasColumnType("float");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Priority1")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ReceivingDate")
                         .HasColumnType("datetime(6)");

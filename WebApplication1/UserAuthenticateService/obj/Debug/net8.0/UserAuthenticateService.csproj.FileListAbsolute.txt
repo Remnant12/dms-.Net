@@ -427,3 +427,4 @@
 /home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/UserAuthenticateService/obj/Debug/net8.0/UserAuthenticateService.pdb
 /home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/UserAuthenticateService/obj/Debug/net8.0/UserAuthenticateService.genruntimeconfig.cache
 /home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/UserAuthenticateService/obj/Debug/net8.0/ref/UserAuthenticateService.dll
+/home/saai/Documents/Work/OurOWn/github/dms-.Net/WebApplication1/UserAuthenticateService/bin/Debug/net8.0/RabbitMQ.Client.dll
